@@ -40,10 +40,33 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="175dp">
 
-            <ListView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lettersListView" />
+                android:layout_marginBottom="-40dp">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shuffle"
+                    android:id="@+id/shuffleButton"
+                    android:contextClickable="false"
+                    android:height="30dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp">
+
+                <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lettersListView" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout

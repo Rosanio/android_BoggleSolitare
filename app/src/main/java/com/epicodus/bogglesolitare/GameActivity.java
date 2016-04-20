@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import butterknife.Bind;
@@ -31,6 +32,7 @@ public class GameActivity extends AppCompatActivity {
     Button mSaveWordButton;
     @Bind(R.id.resultsButton)
     Button mResultsButton;
+    @Bind(R.id.shuffleButton) Button mShuffleButton;
     private String[] letters = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
     "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     private String[] vowels = new String[] {"A", "E", "I", "O", "U"};
@@ -45,10 +47,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public ArrayList<String> addLetters(String[] lettersArray, ArrayList<String> wordArrayList, Integer desiredArraySize) {
-        Log.d(TAG, "it works");
         Random randomGenerator = new Random();
         while(wordArrayList.size() < desiredArraySize) {
-            Log.d(TAG, "It STILL works");
             int randomInt = randomGenerator.nextInt(lettersArray.length);
             String letter = lettersArray[randomInt];
             if(duplicateCheck(wordArrayList, letter)) {
@@ -79,16 +79,12 @@ public class GameActivity extends AppCompatActivity {
             }
         }
 
-        Log.d(TAG, "" + vowelCount);
-
         if (vowelCount >=2) {
-            Log.d(TAG, "Two vowels");
             boggleWords = addLetters(letters, boggleWords, 8);
 
         }
 
         if (vowelCount == 1) {
-            Log.d(TAG, "One vowel");
             boggleWords = addLetters(letters, boggleWords, 7);
 
             boggleWords = addLetters(vowels, boggleWords, 8);
@@ -96,11 +92,10 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if (vowelCount == 0) {
-            Log.d(TAG, "No vowels");
             boggleWords = addLetters(vowels, boggleWords, 8);
         }
 
-        ArrayAdapter wordAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, boggleWords);
+        final ArrayAdapter wordAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, boggleWords);
         mLettersListView.setAdapter(wordAdapter);
 
         mLettersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -129,6 +124,15 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mShuffleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.shuffle(boggleWords);
+                wordAdapter.notifyDataSetChanged();
+            }
+        });
+
         mResultsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
