@@ -1,5 +1,6 @@
 package com.epicodus.bogglesolitare;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,8 @@ public class GameActivity extends AppCompatActivity {
     ListView mLettersListView;
     @Bind(R.id.saveWordButton)
     Button mSaveWordButton;
+    @Bind(R.id.resultsButton)
+    Button mResultsButton;
     private String[] letters = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
     "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     private String[] vowels = new String[] {"A", "E", "I", "O", "U"};
@@ -156,6 +159,14 @@ public class GameActivity extends AppCompatActivity {
                     newWord = "";
                     mNewWordTextView.setText(newWord);
                 }
+            }
+        });
+        mResultsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (GameActivity.this, ResultsActivity.class);
+                intent.putExtra("savedWords", savedWords);
+                startActivity(intent);
             }
         });
     }

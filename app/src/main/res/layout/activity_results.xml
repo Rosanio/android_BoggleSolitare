@@ -9,4 +9,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.epicodus.bogglesolitare.ResultsActivity">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleLayout"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Here are your words"
+            android:id="@+id/textView5"
+            android:textSize="35sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/contentLayout"
+        android:layout_below="@+id/titleLayout"
+        android:gravity="center"
+        android:layout_above="@+id/buttonLayout">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/wordsListView" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonLayout"
+        android:layout_alignParentBottom="true"
+        android:gravity="center">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Play Again"
+            android:id="@+id/playAgainButton" />
+    </LinearLayout>
 </RelativeLayout>
