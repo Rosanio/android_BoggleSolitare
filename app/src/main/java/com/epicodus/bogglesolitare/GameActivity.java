@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,6 +26,13 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         ButterKnife.bind(this);
+
+        Random randomGenerator = new Random();
+        while (boggleWords.size() < 8) {
+            int randomInt = randomGenerator.nextInt(26);
+            String letter = letters[randomInt];
+            boggleWords.add(letter);
+        }
 
         ArrayAdapter wordAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, boggleWords);
         mLettersListView.setAdapter(wordAdapter);
