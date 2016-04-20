@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,16 +20,19 @@ import butterknife.ButterKnife;
 
 
 public class GameActivity extends AppCompatActivity {
-    String newWord = "";
     public static final String TAG = GameActivity.class.getSimpleName();
+    String newWord = "";
     @Bind(R.id.newWordTextView)
     TextView mNewWordTextView;
     @Bind(R.id.lettersListView)
     ListView mLettersListView;
+    @Bind(R.id.saveWordButton)
+    Button mSaveWordButton;
     private String[] letters = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
     "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
     private String[] vowels = new String[] {"A", "E", "I", "O", "U"};
     private ArrayList<String> boggleWords = new ArrayList<String>();
+    private ArrayList<String> savedWords = new ArrayList<String>();
 
     public Boolean duplicateCheck(ArrayList arrayList, String letter) {
         if (arrayList.contains(letter)) {
@@ -126,13 +131,31 @@ public class GameActivity extends AppCompatActivity {
 
         ArrayAdapter wordAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, boggleWords);
         mLettersListView.setAdapter(wordAdapter);
-//        String newWord = "";
+
         mLettersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String wordInput = ((TextView)view).getText().toString();
                 newWord += wordInput;
                 mNewWordTextView.setText(newWord);
+            }
+        });
+
+        mSaveWordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(newWord.length() >= 3) {
+                    Toast.makeText(GameActivity.this, newWord + " has been saved", Toast.LENGTH_LONG).show();
+                    savedWords.add(newWord);
+                    newWord = "";
+                    mNewWordTextView.setText(newWord);
+                    Log.d(TAG, "" + savedWords);
+                } else {
+                    Toast.makeText(GameActivity.this, newWord + " is too short!", Toast.LENGTH_LONG).show();
+                    newWord = "";
+                    mNewWordTextView.setText(newWord);
+                }
             }
         });
     }
