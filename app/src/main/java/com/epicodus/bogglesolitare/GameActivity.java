@@ -3,6 +3,8 @@ package com.epicodus.bogglesolitare;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,9 +15,13 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+
+
 public class GameActivity extends AppCompatActivity {
+    String newWord = "";
     public static final String TAG = GameActivity.class.getSimpleName();
-    private TextView mNewWordTextView;
+    @Bind(R.id.newWordTextView)
+    TextView mNewWordTextView;
     @Bind(R.id.lettersListView)
     ListView mLettersListView;
     private String[] letters = new String[] {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -120,5 +126,14 @@ public class GameActivity extends AppCompatActivity {
 
         ArrayAdapter wordAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, boggleWords);
         mLettersListView.setAdapter(wordAdapter);
+//        String newWord = "";
+        mLettersListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String wordInput = ((TextView)view).getText().toString();
+                newWord += wordInput;
+                mNewWordTextView.setText(newWord);
+            }
+        });
     }
 }
