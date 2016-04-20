@@ -44,6 +44,22 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
+    public ArrayList<String> addLetters(String[] lettersArray, ArrayList<String> wordArrayList, Integer desiredArraySize) {
+        Log.d(TAG, "it works");
+        Random randomGenerator = new Random();
+        while(wordArrayList.size() < desiredArraySize) {
+            Log.d(TAG, "It STILL works");
+            int randomInt = randomGenerator.nextInt(lettersArray.length);
+            String letter = lettersArray[randomInt];
+            if(duplicateCheck(wordArrayList, letter)) {
+                continue;
+            } else {
+                wordArrayList.add(letter);
+            }
+        }
+        return wordArrayList;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,17 +67,7 @@ public class GameActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Random randomGenerator = new Random();
-        while (boggleWords.size() < 6) {
-            int randomInt = randomGenerator.nextInt(26);
-            String letter = letters[randomInt];
-
-            if(duplicateCheck(boggleWords, letter)) {
-                continue;
-            } else {
-                boggleWords.add(letter);
-            }
-        }
+        boggleWords = addLetters(letters, boggleWords, 6);
 
 
         int vowelCount = 0;
@@ -77,59 +83,21 @@ public class GameActivity extends AppCompatActivity {
 
         if (vowelCount >=2) {
             Log.d(TAG, "Two vowels");
-            for (int i=0; i < 2; i++) {
-                int randomInt = randomGenerator.nextInt(26);
-                String letter = letters[randomInt];
-
-                if(duplicateCheck(boggleWords, letter)) {
-                    i -= 1;
-                    continue;
-                } else {
-                    boggleWords.add(letter);
-                }
-            }
+            boggleWords = addLetters(letters, boggleWords, 8);
 
         }
 
         if (vowelCount == 1) {
             Log.d(TAG, "One vowel");
-            int randomInt = randomGenerator.nextInt(26);
-            String letter = letters[randomInt];
+            boggleWords = addLetters(letters, boggleWords, 7);
 
-            if(duplicateCheck(boggleWords, letter)) {
-                int secondRandomInt = randomGenerator.nextInt(26);
-                String secondLetter = letters[randomInt];
-                boggleWords.add(secondLetter);
-            } else {
-                boggleWords.add(letter);
-            }
-
-            int randomVowelInt = randomGenerator.nextInt(5);
-            String vowel = vowels[randomVowelInt];
-
-            if(duplicateCheck(boggleWords, vowel)) {
-                int secondRandomInt = randomGenerator.nextInt(5);
-                String secondVowel = vowels[randomInt];
-                boggleWords.add(secondVowel);
-            } else {
-                boggleWords.add(vowel);
-            }
+            boggleWords = addLetters(vowels, boggleWords, 8);
 
         }
 
         if (vowelCount == 0) {
             Log.d(TAG, "No vowels");
-            for (int i=0; i < 2; i++) {
-                int randomInt = randomGenerator.nextInt(5);
-                String vowel = vowels[randomInt];
-
-                if(duplicateCheck(boggleWords, vowel)) {
-                    i -= 1;
-                    continue;
-                } else {
-                    boggleWords.add(vowel);
-                }
-            }
+            boggleWords = addLetters(vowels, boggleWords, 8);
         }
 
         ArrayAdapter wordAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, boggleWords);
